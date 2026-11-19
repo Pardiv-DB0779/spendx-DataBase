@@ -1,0 +1,50 @@
+CREATE TABLE IF NOT EXISTS public."tOfferType" (
+    "country"                             VARCHAR(10) NOT NULL,
+    "offerTypeId"                         INT NOT NULL,
+    "offerType"                           VARCHAR(100) NOT NULL,
+    "HybrisPillBackgroundColor"           TEXT,
+    "HybrisPillTextColor"                 TEXT,
+    "hybrisDefaultPillText"               VARCHAR(100),
+    "hybrisDefaultStickerText"            VARCHAR(100),
+    "HybrisDefaultStickerBackgroundColor" TEXT,
+    "HybrisDefaultStickerTextColor"       TEXT,
+    "HybrisActionText"                    TEXT,
+    "HybrisActionBackgroundColor"         TEXT,
+    "HybrisActionTextColor"               TEXT,
+    "HybrisSaveAmountText"                TEXT,
+    "HybrisSaveAmountTextColor"           TEXT,
+    "HybrisCartMessage"                   TEXT,
+    "HybrisDrMessageColor"                TEXT,
+    "HybrisMessageColor"                  TEXT,
+    "HybrisDefaultImage"                  TEXT,
+    "HybrisLoyaltyPillBackgroundColor"    TEXT,
+    "HybrisLoyaltyPillTextColor"          TEXT,
+    "HybrisLoyaltyPillText"               TEXT,
+    "HybrisLoyaltyStickerBackgroundColor" TEXT,
+    "HybrisLoyaltyStickerTextColor"       TEXT,
+    "HybrisLoyaltyStickerText"            TEXT,
+    "HybrisLoyaltyOfferId"                TEXT,
+    "HybrisLoyaltyCartMessage"            TEXT,
+    "HybrisLoyaltyDrMessageColor"         TEXT,
+    "HybrisLoyaltyMessageColor"           TEXT,
+    "aggregateType"                       INT NOT NULL DEFAULT 1,
+    "amountThresholdShareUse"             INT NOT NULL DEFAULT 1,
+    "hybrisTargetGroupUse"                INT NOT NULL DEFAULT 0,
+    "AggregateTypeOverride"               INT NOT NULL DEFAULT 0,
+    "ReplaceImageCopyIndicator"           BOOLEAN NOT NULL DEFAULT FALSE,
+    "maximumSkuCount"                     INT NOT NULL DEFAULT 500,
+    CONSTRAINT pk_toffertype PRIMARY KEY ("offerTypeId", "country")
+);
+INSERT INTO public."tOfferType" (
+    "country", "offerTypeId", "offerType", "hybrisDefaultPillText", "hybrisDefaultStickerText",
+    "aggregateType", "amountThresholdShareUse", "hybrisTargetGroupUse", "AggregateTypeOverride",
+    "ReplaceImageCopyIndicator", "maximumSkuCount"
+) VALUES 
+('AU', 18, 'SPEND X GET Y% OFF', 'SPEND & SAVE', 'SPEND & SAVE', 1, 1, 0, 0, false, 500),
+('NZ', 18, 'SPEND X GET Y% OFF', 'SPEND & SAVE', 'SPEND & SAVE', 1, 1, 0, 0, false, 500),
+('AU', 118, 'SPEND X GET Y% OFF - LOYAL', 'REWARDS SPEND & SAVE', 'REWARDS EXCLUSIVE', 1, 1, 1, 0, false, 500),
+('NZ', 118, 'SPEND X GET Y% OFF - LOYAL', 'REWARDS SPEND & SAVE', 'REWARDS EXCLUSIVE', 1, 1, 1, 0, false, 500)
+ON CONFLICT ("offerTypeId", "country") DO UPDATE 
+SET "offerType" = EXCLUDED."offerType",
+    "hybrisDefaultPillText" = EXCLUDED."hybrisDefaultPillText",
+    "hybrisDefaultStickerText" = EXCLUDED."hybrisDefaultStickerText";
