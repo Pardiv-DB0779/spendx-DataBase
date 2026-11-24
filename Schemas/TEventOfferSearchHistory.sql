@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS public."tEventOfferSearchHistory" (
     "offerNumber"                INT NOT NULL,
     "searchJson"                 TEXT,
     "userId"                     VARCHAR(100),
+    "country"                    VARCHAR(10) DEFAULT 'AU',
     "searchedAt"                 TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "tEventOfferSearchHistory_pkey" PRIMARY KEY ("id")
