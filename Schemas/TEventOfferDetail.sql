@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS public."teventofferdetail" (
     "isSkuActive"                BOOLEAN DEFAULT TRUE,
     "isSkuEdited"                BOOLEAN DEFAULT FALSE,
     "displayIndicator"           BOOLEAN DEFAULT TRUE,
+    "isCategoryForecastLocked"   BOOLEAN DEFAULT FALSE,
 
     
     "G0"                         INT,

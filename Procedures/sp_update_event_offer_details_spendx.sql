@@ -33,7 +33,7 @@ BEGIN
             "stockOnHandStore"   = COALESCE(p."stockOnHandStore", d."stockOnHandStore", 0),
             "stockOnHandDc"      = COALESCE(p."stockOnHandDc", d."stockOnHandDc", 0),
             "vendorCostPerEach"  = COALESCE(p."vendorCostPerEach", d."vendorCostPerEach"),
-            "nationalAverageCost"= COALESCE(p."nationalAvgCost", d."nationalAverageCost"),
+            "nationalAverageCost"= COALESCE(p."nationalAverageCost", d."nationalAverageCost"),
             "everydayPrice"      = COALESCE(p."everydayPrice", d."everydayPrice"),
             "everydayPriceGst"   = COALESCE(p."everydayPriceGst", d."everydayPriceGst")
         FROM public."tproducts" p
@@ -41,7 +41,7 @@ BEGIN
           AND p."country" = r.resolved_country
           AND d."offerId" = r."offerId"
           AND d."offerNo" = r."offerNumber"
-          AND d."isSkuActive" = TRUE;
+          AND (d."isSkuActive" = TRUE OR d."isSkuActive" IS NULL);
 
         -- 2. Recalculate detail lines and roll up header totals
         CALL public.sp_update_event_offer_detail_header(

@@ -48,7 +48,7 @@ BEGIN
         FROM public."teventofferdetail" d
         WHERE d."offerId" = p_offer_id
           AND d."offerNo" = p_offer_no
-          AND d."isSkuActive" = TRUE;
+          AND (d."isSkuActive" = TRUE OR d."isSkuActive" IS NULL);
 
         -- 2. Retrieve Space Purchase from header
         SELECT COALESCE("spacePurchase", 0)
@@ -90,7 +90,7 @@ BEGIN
         FROM public."teventofferdetail" d
         WHERE d."offerId" = p_offer_id
           AND d."offerNo" = p_offer_no
-          AND d."isSkuActive" = TRUE
+          AND (d."isSkuActive" = TRUE OR d."isSkuActive" IS NULL)
           AND d."advertisedPrice" IS NOT NULL
         LIMIT 1;
 

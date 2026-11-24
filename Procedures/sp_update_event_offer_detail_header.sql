@@ -59,7 +59,6 @@ BEGIN
             COALESCE("savePct1", 0),
             COALESCE("savePct2", 0),
             COALESCE("savePct3", 0),
-            COALESCE("savePercent", 0),
             0
         )
         INTO v_max_discount
@@ -79,7 +78,7 @@ BEGIN
                     ELSE ROUND((COALESCE(p."averageMonthlySales", 0.0) / 30.0) * v_duration_days, 2)
                 END AS base_everyday_units,
                 -- Unit cost & price
-                COALESCE(d."nationalAverageCost", d."vendorCostPerEach", p."nationalAvgCost", 0) AS unit_cost,
+                COALESCE(d."nationalAverageCost", d."vendorCostPerEach", p."nationalAverageCost", 0) AS unit_cost,
                 COALESCE(d."everydayPrice", p."everydayPrice", 0) AS unit_price,
                 COALESCE(d."everydayPriceGst", p."everydayPriceGst", 0) AS unit_price_gst,
                 -- Advertised Price based on max nominal discount % (BRD Item 1)
@@ -106,7 +105,7 @@ BEGIN
               ON p."sku" = d."sku" AND p."country" = v_country
             WHERE d."offerId" = p_offer_id
               AND d."offerNo" = p_offer_no
-              AND d."isSkuActive" = TRUE
+              AND (d."isSkuActive" = TRUE OR d."isSkuActive" IS NULL)
         ),
         forecast_calc AS (
             SELECT
