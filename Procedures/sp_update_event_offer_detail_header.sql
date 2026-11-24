@@ -21,14 +21,14 @@ LANGUAGE 'plpgsql'
 AS $BODY$
 DECLARE
     v_country text := 'AU';
-    v_duration_days integer := 14;
+    v_duration_days integer := 0;
     v_max_discount numeric := 0;
 BEGIN
     IF p_offer_type_id IN (18, 118) THEN
         -- 1. Fetch Event and Header metadata
         SELECT
             COALESCE(eh."country", eoh."country", 'AU'),
-            GREATEST(1, COALESCE((eh."endDate" - eh."startDate") + 1, 14))
+            COALESCE((eh."endDate" - eh."startDate") + 1, 0)
         INTO
             v_country,
             v_duration_days
@@ -76,7 +76,7 @@ BEGIN
                 -- Base Everyday Units
                 CASE
                     WHEN COALESCE(d."everydayUnits", 0) > 0 THEN d."everydayUnits"
-                    ELSE ROUND((COALESCE(p."averageMonthlySales", 30.0) / 30.0) * v_duration_days, 2)
+                    ELSE ROUND((COALESCE(p."averageMonthlySales", 0.0) / 30.0) * v_duration_days, 2)
                 END AS base_everyday_units,
                 -- Unit cost & price
                 COALESCE(d."nationalAverageCost", d."vendorCostPerEach", p."nationalAvgCost", 0) AS unit_cost,
