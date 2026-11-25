@@ -25,15 +25,14 @@ DECLARE
     v_max_discount numeric := 0;
 BEGIN
     IF p_offer_type_id IN (18, 118) THEN
-        -- 1. Fetch Event and Header metadata
+        -- 1. Fetch Header metadata 
         SELECT
-            COALESCE(eh."country", eoh."country", 'AU'),
-            COALESCE((eh."endDate" - eh."startDate") + 1, 0)
+            COALESCE(eoh."country", 'AU'),
+            14
         INTO
             v_country,
             v_duration_days
         FROM public."tEventOffer" eoh
-        LEFT JOIN public."tEvent" eh ON eh."eventId" = eoh."eventId"
         WHERE eoh."offerId" = p_offer_id
           AND eoh."offerNumber" = p_offer_no
         LIMIT 1;
