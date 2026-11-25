@@ -1,6 +1,4 @@
 -- PROCEDURE: public.sp_update_event_offer_header
-
-
 CREATE OR REPLACE PROCEDURE public.sp_update_event_offer_header(
     IN p_offer_id integer,
     IN p_offer_no integer,

@@ -1,5 +1,5 @@
 -- FUNCTION: public.spSpendXPricingByEventID(integer)
--- Purpose-built for SpendX Pricing Extract (Offer Types 18 & 118) across the 5 core tables.
+
 
 DROP FUNCTION IF EXISTS public."spSpendXPricingByEventID"(integer);
 DROP FUNCTION IF EXISTS public.spspendxpricingbyeventid(integer);
@@ -18,16 +18,14 @@ RETURNS TABLE
     "DESC" varchar,
     "BRAND" varchar,
     "SKU" varchar,
-    "EDPRICEGST" numeric,
     "STARTDTE" date,
     "ENDDTE" date,
     "SPEND1" numeric,
-    "SPEND2" numeric,
-    "SPEND3" numeric,
     "SAVEPCT1" numeric,
+    "SPEND2" numeric,
     "SAVEPCT2" numeric,
+    "SPEND3" numeric,
     "SAVEPCT3" numeric,
-    "ADVPRICEGST" numeric,
     "ISREWARDS" boolean
 )
 LANGUAGE plpgsql
@@ -47,16 +45,14 @@ BEGIN
         COALESCE(eod."description", prod."description", '')::varchar AS "DESC",
         COALESCE(eod."brand", prod."brand", eo."brand")::varchar AS "BRAND",
         eod."sku"::varchar AS "SKU",
-        COALESCE(eod."everydayPriceGst", prod."everydayPriceGst", 0)::numeric AS "EDPRICEGST",
         eo."createdAt"::date AS "STARTDTE",
         (eo."createdAt" + interval '14 days')::date AS "ENDDTE",
         COALESCE(eo."spend1", 0)::numeric AS "SPEND1",
-        eo."spend2"::numeric AS "SPEND2",
-        eo."spend3"::numeric AS "SPEND3",
         COALESCE(eo."savePct1", 0)::numeric AS "SAVEPCT1",
+        eo."spend2"::numeric AS "SPEND2",
         eo."savePct2"::numeric AS "SAVEPCT2",
+        eo."spend3"::numeric AS "SPEND3",
         eo."savePct3"::numeric AS "SAVEPCT3",
-        ROUND(COALESCE(eod."advertisedPriceGst", 0), 2)::numeric AS "ADVPRICEGST",
         COALESCE(eo."isRewards", FALSE)::boolean AS "ISREWARDS"
     FROM public."tEventOffer" eo
     INNER JOIN public."teventofferdetail" eod
@@ -90,16 +86,14 @@ RETURNS TABLE
     "DESC" varchar,
     "BRAND" varchar,
     "SKU" varchar,
-    "EDPRICEGST" numeric,
     "STARTDTE" date,
     "ENDDTE" date,
     "SPEND1" numeric,
-    "SPEND2" numeric,
-    "SPEND3" numeric,
     "SAVEPCT1" numeric,
+    "SPEND2" numeric,
     "SAVEPCT2" numeric,
+    "SPEND3" numeric,
     "SAVEPCT3" numeric,
-    "ADVPRICEGST" numeric,
     "ISREWARDS" boolean
 )
 LANGUAGE sql
